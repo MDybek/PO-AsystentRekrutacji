@@ -18,7 +18,6 @@ public class Raport {
     private Double liczbaKatndydatowNaMiejsce;
     private Double liczbaKandydatowNaMiejsce;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "raport")
-    @JsonBackReference
     private List<AplikacjaNaKierunek> aplikacjaNaKierunek;
     @OneToOne
     @JsonBackReference

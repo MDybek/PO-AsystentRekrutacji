@@ -23,7 +23,7 @@ public class Kierunek {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "kierunek")
     private List<HonorowaneOsiagniecia> honorowaneOsiagniecia;
-    @OneToOne
-    @JoinColumn(name = "raport_id", referencedColumnName = "id")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "kierunek")
+//    @JoinColumn(name = "raport_id", referencedColumnName = "id")
     private Raport raport;
 }
