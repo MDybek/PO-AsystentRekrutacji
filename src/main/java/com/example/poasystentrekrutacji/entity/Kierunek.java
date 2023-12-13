@@ -19,4 +19,7 @@ public class Kierunek {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "kierunek", cascade = CascadeType.ALL)
     @Size(min = 3)
     private List<RegulaWskaznikaRekrutacyjnego> regulyWskaznikaRekrutacyjnego;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kierunek")
+    private List<HonorowaneOsiagniecia> honorowaneOsiagniecia;
 }

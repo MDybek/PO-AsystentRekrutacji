@@ -1,9 +1,7 @@
 package com.example.poasystentrekrutacji.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
 @Entity
 public class HonorowaneOsiagniecia {
@@ -13,4 +11,7 @@ public class HonorowaneOsiagniecia {
     private String nazwa;
     private String opis;
     private int liczbaPunktow;
+    @ManyToOne
+    @JsonBackReference
+    private Kierunek kierunek;
 }
