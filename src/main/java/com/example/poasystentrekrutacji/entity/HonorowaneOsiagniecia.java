@@ -3,6 +3,8 @@ package com.example.poasystentrekrutacji.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class HonorowaneOsiagniecia {
     @Id
@@ -14,4 +16,6 @@ public class HonorowaneOsiagniecia {
     @ManyToOne
     @JsonBackReference
     private Kierunek kierunek;
+    @ManyToMany
+    private List<DaneRekrutacyjne> daneRekrutacyjne;
 }

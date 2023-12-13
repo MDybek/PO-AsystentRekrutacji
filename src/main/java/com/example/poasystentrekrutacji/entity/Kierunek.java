@@ -1,5 +1,6 @@
 package com.example.poasystentrekrutacji.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
@@ -22,4 +23,7 @@ public class Kierunek {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "kierunek")
     private List<HonorowaneOsiagniecia> honorowaneOsiagniecia;
+    @OneToOne
+    @JoinColumn(name = "raport_id", referencedColumnName = "id")
+    private Raport raport;
 }

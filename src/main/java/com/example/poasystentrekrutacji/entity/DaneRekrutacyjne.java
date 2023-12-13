@@ -13,4 +13,8 @@ public class DaneRekrutacyjne {
     private List<WynikZMatury> wynikiZMatury;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "daneRekrutacyjne")
     private List<UkonczoneStudia> ukonczoneStudia;
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "daneRekrutacyjne")
+    private List<HonorowaneOsiagniecia> honorowaneOsiagniecia;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "daneRekrutacyjne")
+    private AplikacjaNaKierunek aplikacjaNaKierunek;
 }
