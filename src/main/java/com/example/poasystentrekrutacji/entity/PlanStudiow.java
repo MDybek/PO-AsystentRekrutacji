@@ -1,10 +1,12 @@
 package com.example.poasystentrekrutacji.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.util.List;
 
 @Entity
+@Getter
 public class PlanStudiow {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

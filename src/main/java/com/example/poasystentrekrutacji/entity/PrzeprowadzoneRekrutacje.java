@@ -15,4 +15,5 @@ public class PrzeprowadzoneRekrutacje {
     private Integer rok;
     private String nazwaKierunku;
     private Long rekruterId;
+    private Long rekrutacjaId;
 }

@@ -1,12 +1,15 @@
 package com.example.poasystentrekrutacji.service;
 
+import com.example.poasystentrekrutacji.dto.raport.AplikacjaNaKierunekDTO;
+import com.example.poasystentrekrutacji.dto.raport.KierunekDTO;
 import com.example.poasystentrekrutacji.dto.raport.RaportDTO;
+import com.example.poasystentrekrutacji.entity.AplikacjaNaKierunek;
 import com.example.poasystentrekrutacji.entity.PrzeprowadzoneRekrutacje;
 import com.example.poasystentrekrutacji.repository.PrzeprowadzoneRekrutacjeRepository;
+import com.example.poasystentrekrutacji.repository.RekrutacjaRepository;
 import com.example.poasystentrekrutacji.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import org.hibernate.resource.beans.container.internal.NotYetReadyException;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -18,6 +21,8 @@ import java.util.Objects;
 public class RaportService {
     private final UserRepository userRepository;
     private final PrzeprowadzoneRekrutacjeRepository przeprowadzoneRekrutacjeRepository;
+    private final RekrutacjaRepository rekrutacjaRepository;
+
     public List<PrzeprowadzoneRekrutacje> wypiszRekrutacjeDoRaportu(Principal principal) {
         val user = userRepository.findByEmail(principal.getName()).orElseThrow();
         return przeprowadzoneRekrutacjeRepository.findAllByrekruterId(user.getId());
@@ -35,6 +40,22 @@ public class RaportService {
     }
 
     private RaportDTO generateRaport(Long raportId) {
-        return null;
+        val przeprowadzonaRekrutacja = przeprowadzoneRekrutacjeRepository.findById(raportId).orElseThrow();
+        val raport = rekrutacjaRepository.findById(przeprowadzonaRekrutacja.getRekrutacjaId()).orElseThrow();
+
+        return RaportDTO.builder()
+                .dataRozpoczecia(raport.getDataRozpoczecia())
+                .dataZakonczenia(raport.getDataZakonczenia())
+                .limitOsob(raport.getLimitOsob())
+                .liczbaKandydatow(raport.getLiczbaKandydatow())
+                .liczbaKatndydatowNaMiejsce(raport.getLiczbaKatndydatowNaMiejsce())
+                .sredniWskaznikRekrutacyjny(raport.getSredniWskaznikRekrutacyjny())
+                .aplikacjaNaKierunek(getAplikacjeNaKierunek(raport.getAplikacjaNaKierunek()))
+                .kierunek(KierunekDTO.of(raport.getKierunek()))
+                .build();
+    }
+
+    private List<AplikacjaNaKierunekDTO> getAplikacjeNaKierunek(List<AplikacjaNaKierunek> aplikacjaNaKierunek) {
+        return aplikacjaNaKierunek.stream().map(AplikacjaNaKierunekDTO::of).toList();
     }
 }
