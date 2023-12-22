@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1/uzytkownik")
 @RequiredArgsConstructor
 public class UzytkownikController {
     private final AuthenticationService authenticationService;
 
-    @PostMapping("/register")
+    @PostMapping("/zarejestruj")
     public ResponseEntity<AuthToken> register(@RequestBody DaneRejestracyjneUzytkownika request) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
