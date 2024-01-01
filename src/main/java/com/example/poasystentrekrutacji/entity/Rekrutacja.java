@@ -19,7 +19,7 @@ public class Rekrutacja {
     private Integer liczbaKandydatow;
     private Double liczbaKatndydatowNaMiejsce;
     private Double sredniWskaznikRekrutacyjny;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "raport")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "rekrutacja")
     private List<AplikacjaNaKierunek> aplikacjaNaKierunek;
     @OneToOne
     @JsonBackReference

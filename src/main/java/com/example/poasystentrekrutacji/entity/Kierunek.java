@@ -20,6 +20,8 @@ public class Kierunek {
     private Long id;
     private String nazwa;
     private String opis;
+    private String dziedzina;
+    private String wydzial;
     private String uwagiDoReguly;
 
     @OneToOne
@@ -33,8 +35,8 @@ public class Kierunek {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "kierunek")
     private List<HonorowaneOsiagniecia> honorowaneOsiagniecia;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kierunek")
-//    private List<PunktyRekrutacyjneZaKierunek> punktyRekrutacyjneZaKierunek;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kierunek")
+    private List<PunktyRekrutacyjneZaKierunek> punktyRekrutacyjneZaKierunek;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "kierunek")
     private Rekrutacja rekrutacja;
