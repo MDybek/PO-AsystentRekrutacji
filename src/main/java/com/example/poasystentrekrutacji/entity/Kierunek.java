@@ -20,6 +20,7 @@ public class Kierunek {
     private Long id;
     private String nazwa;
     private String opis;
+    private String uwagiDoReguly;
 
     @OneToOne
     @JoinColumn(name = "plan_studiow_id", referencedColumnName = "id")
@@ -36,5 +37,5 @@ public class Kierunek {
 //    private List<PunktyRekrutacyjneZaKierunek> punktyRekrutacyjneZaKierunek;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "kierunek")
-    private Raport raport;
+    private Rekrutacja rekrutacja;
 }
