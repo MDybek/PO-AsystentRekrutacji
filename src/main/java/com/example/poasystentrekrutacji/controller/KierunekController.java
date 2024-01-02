@@ -1,5 +1,6 @@
 package com.example.poasystentrekrutacji.controller;
 
+import com.example.poasystentrekrutacji.dto.kierunek.RegisterKierunekFormDataDTO;
 import com.example.poasystentrekrutacji.dto.kierunek.RegisterKierunekRequest;
 import com.example.poasystentrekrutacji.service.KierunekService;
 import lombok.RequiredArgsConstructor;
@@ -15,5 +16,10 @@ public class KierunekController {
     @PostMapping("/register")
     public ResponseEntity<Long> registerKierunek(@RequestBody RegisterKierunekRequest request) {
         return ResponseEntity.ok(kierunekService.registerKierunek(request));
+    }
+
+    @GetMapping("/register/form-data")
+    public ResponseEntity<RegisterKierunekFormDataDTO> getFormData() {
+        return ResponseEntity.ok(kierunekService.getRegisterKierunekFormData());
     }
 }

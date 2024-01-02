@@ -4,6 +4,8 @@ import java.util.List;
 
 public record RegisterKierunekRequest(String nazwa,
                                       String opis,
+                                      String dziedzina,
+                                      String wydzial,
                                       List<RegulaWskaznikaRekrutacyjnegoDTO> regulyWskaznikaRekrutacyjnego,
                                       List<HonorowaneOsiagnieciaDTO> honorowaneOsiagniecia,
                                       List<PunktyRekrutacyjneZaKierunekDTO> punktyRekrutacyjneZaKierunki) {

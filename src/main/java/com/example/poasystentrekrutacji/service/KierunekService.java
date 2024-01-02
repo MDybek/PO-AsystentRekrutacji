@@ -1,9 +1,9 @@
 package com.example.poasystentrekrutacji.service;
 
-import com.example.poasystentrekrutacji.dto.kierunek.HonorowaneOsiagnieciaDTO;
-import com.example.poasystentrekrutacji.dto.kierunek.PunktyRekrutacyjneZaKierunekDTO;
-import com.example.poasystentrekrutacji.dto.kierunek.RegisterKierunekRequest;
-import com.example.poasystentrekrutacji.dto.kierunek.RegulaWskaznikaRekrutacyjnegoDTO;
+import com.example.poasystentrekrutacji.constant.Przedmiot;
+import com.example.poasystentrekrutacji.constant.StopienMatury;
+import com.example.poasystentrekrutacji.constant.StopienStudiow;
+import com.example.poasystentrekrutacji.dto.kierunek.*;
 import com.example.poasystentrekrutacji.entity.HonorowaneOsiagniecia;
 import com.example.poasystentrekrutacji.entity.Kierunek;
 import com.example.poasystentrekrutacji.entity.PunktyRekrutacyjneZaKierunek;
@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -78,5 +79,16 @@ public class KierunekService {
         }
 
         punktyZaKierunekRepository.saveAll(points);
+    }
+
+    public RegisterKierunekFormDataDTO getRegisterKierunekFormData() {
+        return RegisterKierunekFormDataDTO.builder()
+                .dziedziny(List.of("Matematyka", "Fizyka", "Informatyka i Telekomunikacja", "Chemia", "Lingwistyka Stosowana"))
+                .wydzialy(List.of("Matematyczny", "Fizyczny", "Chemiczny", "Lingwistyczny", "Sportowy"))
+                .stopnieStudiow(Arrays.stream(StopienStudiow.values()).toList())
+                .przedmiotyMaturalne(Arrays.stream(Przedmiot.values()).toList())
+                .stopnieMatury(Arrays.stream(StopienMatury.values()).toList())
+                .kierunki(kierunekRepository.findAll().stream().map(kierunek -> new KierunekDTO(kierunek.getId(), kierunek.getNazwa())).toList())
+                .build();
     }
 }
