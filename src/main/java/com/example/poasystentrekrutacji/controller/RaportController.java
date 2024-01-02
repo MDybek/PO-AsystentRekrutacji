@@ -1,7 +1,7 @@
 package com.example.poasystentrekrutacji.controller;
 
+import com.example.poasystentrekrutacji.dto.raport.PrzeprowadzoneRekrutacjeWithIdDTO;
 import com.example.poasystentrekrutacji.dto.raport.RaportDTO;
-import com.example.poasystentrekrutacji.entity.PrzeprowadzoneRekrutacje;
 import com.example.poasystentrekrutacji.service.RaportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +18,12 @@ public class RaportController {
 
 
     @GetMapping("/wypiszRekrutacjeDoRaportu")
-    public ResponseEntity<List<PrzeprowadzoneRekrutacje>> wypiszRekrutacjeDoRaportu(Principal principal) {
-        return ResponseEntity.ok(raportService.wypiszRekrutacjeDoRaportu(principal));
+    public ResponseEntity<List<PrzeprowadzoneRekrutacjeWithIdDTO>> wypiszRekrutacjeDoRaportu(@RequestParam("userId") Long userId) {
+        return ResponseEntity.ok(raportService.wypiszRekrutacjeDoRaportu(userId));
     }
 
     @GetMapping("/generujRaport")
-    public ResponseEntity<RaportDTO> generateRaport(@RequestParam(value = "raportId") Long raportId, Principal principal) {
-        return ResponseEntity.ok(raportService.generateRaport(raportId, principal));
+    public ResponseEntity<RaportDTO> generateRaport(@RequestParam(value = "raportId") Long raportId) {
+        return ResponseEntity.ok(raportService.generateRaport(raportId));
     }
 }

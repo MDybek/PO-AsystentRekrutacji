@@ -2,9 +2,9 @@ package com.example.poasystentrekrutacji.service;
 
 import com.example.poasystentrekrutacji.dto.raport.AplikacjaNaKierunekDTO;
 import com.example.poasystentrekrutacji.dto.raport.KierunekDTO;
+import com.example.poasystentrekrutacji.dto.raport.PrzeprowadzoneRekrutacjeWithIdDTO;
 import com.example.poasystentrekrutacji.dto.raport.RaportDTO;
 import com.example.poasystentrekrutacji.entity.AplikacjaNaKierunek;
-import com.example.poasystentrekrutacji.entity.PrzeprowadzoneRekrutacje;
 import com.example.poasystentrekrutacji.repository.PrzeprowadzoneRekrutacjeRepository;
 import com.example.poasystentrekrutacji.repository.RekrutacjaRepository;
 import com.example.poasystentrekrutacji.repository.UserRepository;
@@ -23,23 +23,18 @@ public class RaportService {
     private final PrzeprowadzoneRekrutacjeRepository przeprowadzoneRekrutacjeRepository;
     private final RekrutacjaRepository rekrutacjaRepository;
 
-    public List<PrzeprowadzoneRekrutacje> wypiszRekrutacjeDoRaportu(Principal principal) {
-        val user = userRepository.findByEmail(principal.getName()).orElseThrow();
-        return przeprowadzoneRekrutacjeRepository.findAllByrekruterId(user.getId());
+    public List<PrzeprowadzoneRekrutacjeWithIdDTO> wypiszRekrutacjeDoRaportu(Long userId) {
+        return przeprowadzoneRekrutacjeRepository.findAllByrekruterId(userId);
     }
 
-    public RaportDTO generateRaport(Long raportId, Principal principal) {
-        val user = userRepository.findByEmail(principal.getName()).orElseThrow();
+    public RaportDTO generateRaport(Long raportId) {
         if (!przeprowadzoneRekrutacjeRepository.existsById(raportId)) {
             throw new RuntimeException("Raport with given id not found");
         }
-        if (!Objects.equals(przeprowadzoneRekrutacjeRepository.findById(raportId).orElseThrow().getRekruterId(), user.getId())) {
-            throw new RuntimeException("User with given id is not allowed to generate this report");
-        }
-        return generateRaport(raportId);
+        return generateRaportEngine(raportId);
     }
 
-    private RaportDTO generateRaport(Long raportId) {
+    private RaportDTO generateRaportEngine(Long raportId) {
         val przeprowadzonaRekrutacja = przeprowadzoneRekrutacjeRepository.findById(raportId).orElseThrow();
         val raport = rekrutacjaRepository.findById(przeprowadzonaRekrutacja.getRekrutacjaId()).orElseThrow();
 
