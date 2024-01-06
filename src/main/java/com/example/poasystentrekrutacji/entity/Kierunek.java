@@ -24,9 +24,8 @@ public class Kierunek {
     private String wydzial;
     private String uwagiDoReguly;
 
-    @OneToOne
-    @JoinColumn(name = "plan_studiow_id", referencedColumnName = "id")
-    private PlanStudiow planStudiow;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kierunek", cascade = CascadeType.ALL)
+    private List<PrzedmiotNaStudiach> przedmiotyNaStudiach;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "kierunek", cascade = CascadeType.ALL)
     @Size(min = 3)

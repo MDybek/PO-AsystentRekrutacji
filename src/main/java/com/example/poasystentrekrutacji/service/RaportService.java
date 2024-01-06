@@ -45,6 +45,7 @@ public class RaportService {
                 .liczbaKandydatow(raport.getLiczbaKandydatow())
                 .liczbaKatndydatowNaMiejsce(raport.getLiczbaKatndydatowNaMiejsce())
                 .sredniWskaznikRekrutacyjny(raport.getSredniWskaznikRekrutacyjny())
+                .minimalnyWskaznikRekrutacyjny(raport.getMinimalnyWskaznikRekrutacyjny())
                 .aplikacjaNaKierunek(getAplikacjeNaKierunek(raport.getAplikacjaNaKierunek()))
                 .kierunek(KierunekDTO.of(raport.getKierunek()))
                 .build();

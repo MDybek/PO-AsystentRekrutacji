@@ -2,12 +2,16 @@ package com.example.poasystentrekrutacji.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Getter
+@Builder
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AplikacjaNaKierunek {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

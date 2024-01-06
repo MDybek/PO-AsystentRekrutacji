@@ -2,10 +2,14 @@ package com.example.poasystentrekrutacji.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 @Entity
 @Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PrzedmiotNaStudiach {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,5 +20,5 @@ public class PrzedmiotNaStudiach {
     private String nazwa;
     @ManyToOne
     @JsonBackReference
-    private PlanStudiow planStudiow;
+    private Kierunek kierunek;
 }

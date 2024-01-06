@@ -23,6 +23,6 @@ public class DaneRekrutacyjne {
     private List<UkonczoneStudia> ukonczoneStudia;
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "daneRekrutacyjne")
     private List<HonorowaneOsiagniecia> honorowaneOsiagniecia;
-//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "daneRekrutacyjne")
-//    private AplikacjaNaKierunek aplikacjaNaKierunek;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "daneRekrutacyjne")
+    private AplikacjaNaKierunek aplikacjaNaKierunek;
 }

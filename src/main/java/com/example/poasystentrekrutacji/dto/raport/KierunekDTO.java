@@ -4,6 +4,7 @@ import com.example.poasystentrekrutacji.dto.kierunek.HonorowaneOsiagnieciaDTO;
 import com.example.poasystentrekrutacji.dto.kierunek.RegulaWskaznikaRekrutacyjnegoDTO;
 import com.example.poasystentrekrutacji.entity.HonorowaneOsiagniecia;
 import com.example.poasystentrekrutacji.entity.Kierunek;
+import com.example.poasystentrekrutacji.entity.PrzedmiotNaStudiach;
 import com.example.poasystentrekrutacji.entity.RegulaWskaznikaRekrutacyjnego;
 
 
@@ -13,12 +14,12 @@ import java.util.stream.Collectors;
 public record KierunekDTO(String nazwa,
                           String opis,
                           String uwagiDoReguly,
-                          PlanStudiowDTO planStudiow,
+                          List<PrzedmiotNaStudiachDTO> przedmioty,
                           List<RegulaWskaznikaRekrutacyjnegoDTO> regulyWskaznikaRekrutacyjnego,
                           List<HonorowaneOsiagnieciaDTO> honorowaneOsiagniecia) {
     public static KierunekDTO of(Kierunek kierunek) {
         return new KierunekDTO(kierunek.getNazwa(), kierunek.getOpis(), kierunek.getUwagiDoReguly(),
-                PlanStudiowDTO.of(kierunek.getPlanStudiow()),
+                convertPrzedmiotyNaStudiach(kierunek.getPrzedmiotyNaStudiach()),
                 convertRegulyWskaznikaRekrutacyjnego(kierunek.getRegulyWskaznikaRekrutacyjnego()),
                 convertHonorowaneOsiagniecia(kierunek.getHonorowaneOsiagniecia()));
     }
@@ -32,6 +33,12 @@ public record KierunekDTO(String nazwa,
     private static List<HonorowaneOsiagnieciaDTO> convertHonorowaneOsiagniecia(List<HonorowaneOsiagniecia> honorowaneOsiagniecia) {
         return honorowaneOsiagniecia.stream()
                 .map(HonorowaneOsiagnieciaDTO::of)
+                .collect(Collectors.toList());
+    }
+
+    private static List<PrzedmiotNaStudiachDTO> convertPrzedmiotyNaStudiach(List<PrzedmiotNaStudiach> przedmiotyNaStudiach) {
+        return przedmiotyNaStudiach.stream()
+                .map(PrzedmiotNaStudiachDTO::of)
                 .collect(Collectors.toList());
     }
 }

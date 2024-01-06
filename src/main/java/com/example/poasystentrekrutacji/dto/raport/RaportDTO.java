@@ -18,6 +18,7 @@ public record RaportDTO(LocalDate dataRozpoczecia,
                         Integer liczbaKandydatow,
                         Double liczbaKatndydatowNaMiejsce,
                         Double sredniWskaznikRekrutacyjny,
+                        Double minimalnyWskaznikRekrutacyjny,
                         List<AplikacjaNaKierunekDTO> aplikacjaNaKierunek,
                         KierunekDTO kierunek) {
 
