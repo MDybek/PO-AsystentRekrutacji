@@ -5,8 +5,6 @@ import com.example.poasystentrekrutacji.constant.StopienMatury;
 import com.example.poasystentrekrutacji.entity.RegulaWskaznikaRekrutacyjnego;
 import lombok.Builder;
 
-import java.util.List;
-
 @Builder
 public record RegulaWskaznikaRekrutacyjnegoDTO(Przedmiot przedmiot, StopienMatury stopienMatury, Double waga) {
     public static RegulaWskaznikaRekrutacyjnegoDTO of(RegulaWskaznikaRekrutacyjnego regulyWskaznikaRekrutacyjnego) {

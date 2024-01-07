@@ -12,7 +12,10 @@ import com.example.poasystentrekrutacji.repository.HonorowaneOsiagnieciaReposito
 import com.example.poasystentrekrutacji.repository.KierunekRepository;
 import com.example.poasystentrekrutacji.repository.PunktyZaKierunekRepository;
 import com.example.poasystentrekrutacji.repository.RegulaWskaznikaRekrutacyjnegoRepository;
+import com.example.poasystentrekrutacji.utils.validator.ValidationStrategy;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,10 +31,19 @@ public class KierunekService {
     private final RegulaWskaznikaRekrutacyjnegoRepository regulaWskaznikaRekrutacyjnegoRepository;
     private final PunktyZaKierunekRepository punktyZaKierunekRepository;
 
+    @Autowired
+    @Qualifier("strictStrategy")
+    private ValidationStrategy<RegisterKierunekRequest> validationStrategy;
+
     public Long registerKierunek(RegisterKierunekRequest request) {
+        validationStrategy.validate(request);
+
         Kierunek kierunek = Kierunek.builder()
                 .nazwa(request.nazwa())
+                .dziedzina(request.dziedzina())
+                .wydzial(request.wydzial())
                 .opis(request.opis())
+                .stopienStudiow(request.stopienStudiow())
                 .regulyWskaznikaRekrutacyjnego(getRecruitmentRules(request.regulyWskaznikaRekrutacyjnego()))
                 .honorowaneOsiagniecia(getHonoredAchievements(request.honorowaneOsiagniecia()))
                 .build();
@@ -40,7 +52,7 @@ public class KierunekService {
 
         setKierunekReferenceForRules(kierunek.getRegulyWskaznikaRekrutacyjnego(), kierunek);
         setKierunekReferenceForAchievements(kierunek.getHonorowaneOsiagniecia(), kierunek);
-        createPunktyRekrutacyjneZaKierunek(request.punktyRekrutacyjneZaKierunki(), kierunek);
+        createPunktyRekrutacyjneZaKierunek(request.punktyRekrutacyjneZaKierunki());
 
         return kierunek.getId();
     }
@@ -63,7 +75,7 @@ public class KierunekService {
         honorowaneOsiagnieciaRepository.saveAll(achievements);
     }
 
-    private void createPunktyRekrutacyjneZaKierunek(List<PunktyRekrutacyjneZaKierunekDTO> pointsDTOs, Kierunek kierunek) {
+    private void createPunktyRekrutacyjneZaKierunek(List<PunktyRekrutacyjneZaKierunekDTO> pointsDTOs) {
         List<PunktyRekrutacyjneZaKierunek> points = new ArrayList<>();
 
         for (PunktyRekrutacyjneZaKierunekDTO pointsDTO : pointsDTOs) {
