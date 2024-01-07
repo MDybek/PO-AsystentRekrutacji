@@ -1,5 +1,6 @@
 package com.example.poasystentrekrutacji.entity;
 
+import com.example.poasystentrekrutacji.constant.StopienStudiow;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class Kierunek {
     private String opis;
     private String dziedzina;
     private String wydzial;
+    private StopienStudiow stopienStudiow;
     private String uwagiDoReguly;
 
     @OneToOne
