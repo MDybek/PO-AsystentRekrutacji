@@ -9,12 +9,16 @@ import com.example.poasystentrekrutacji.dto.kierunek.HonorowaneOsiagnieciaDTO;
 import com.example.poasystentrekrutacji.dto.kierunek.PunktyRekrutacyjneZaKierunekDTO;
 import com.example.poasystentrekrutacji.dto.kierunek.RegisterKierunekRequest;
 import com.example.poasystentrekrutacji.dto.kierunek.RegulaWskaznikaRekrutacyjnegoDTO;
+import com.example.poasystentrekrutacji.dto.raport.PrzeprowadzoneRekrutacjeWithIdDTO;
 import com.example.poasystentrekrutacji.entity.DaneUzytkownika;
 import com.example.poasystentrekrutacji.entity.Kierunek;
 import com.example.poasystentrekrutacji.repository.KierunekRepository;
 import com.example.poasystentrekrutacji.repository.UserRepository;
 import com.example.poasystentrekrutacji.service.AuthenticationService;
 import com.example.poasystentrekrutacji.service.KierunekService;
+import com.example.poasystentrekrutacji.service.RaportService;
+import jakarta.transaction.Transactional;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,8 +27,7 @@ import org.springframework.test.annotation.Rollback;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class PoAsystentRekrutacjiApplicationTests {
@@ -37,6 +40,8 @@ class PoAsystentRekrutacjiApplicationTests {
     private KierunekRepository kierunekRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RaportService raportService;
 
     @Test
     @Rollback
@@ -262,5 +267,37 @@ class PoAsystentRekrutacjiApplicationTests {
         assertEquals(userFromDb.getDataUrodzenia(), user1.getDataUrodzenia());
         assertEquals(userFromDb.getDataZalozeniaKonta(), user1.getDataZalozeniaKonta());
         assertEquals(userFromDb.getPlec(), user1.getPlec());
+    }
+
+    @Test
+    void listAllRaportsForInvalidGivenUserIdShouldReturnEmptyList() {
+        // given
+        Long invalidUserId = 123123L;
+        // when && then
+        List<PrzeprowadzoneRekrutacjeWithIdDTO> raports = raportService.wypiszRekrutacjeDoRaportu(invalidUserId);
+        assertEquals(raports.size(), 0);
+    }
+
+    @Test
+    void listAllRaportsForValidGivenUserIdShouldListRaports() {
+        // given
+        Long validUserId = 1L;
+        // when && then
+        assertDoesNotThrow(() -> raportService.wypiszRekrutacjeDoRaportu(validUserId));
+    }
+
+    @Test
+    void generateRaportForInvalidRaportIdShouldThrowError() {
+        // given
+        Long invalidRaportId = 123123L;
+        // when && then
+        assertThrows(RuntimeException.class, () -> raportService.generateRaport(invalidRaportId));
+    }
+
+    @Test
+    @Transactional
+    void generateRaportForValidRaportIdShouldReturnRaport() {
+        Long validUserId = 1L;
+        assertDoesNotThrow(() -> raportService.generateRaport(validUserId));
     }
 }
