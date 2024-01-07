@@ -1,20 +1,27 @@
 package com.example.poasystentrekrutacji;
 
+import com.example.poasystentrekrutacji.constant.Plec;
 import com.example.poasystentrekrutacji.constant.Przedmiot;
 import com.example.poasystentrekrutacji.constant.StopienMatury;
 import com.example.poasystentrekrutacji.constant.StopienStudiow;
+import com.example.poasystentrekrutacji.dto.DaneRejestracyjneUzytkownika;
 import com.example.poasystentrekrutacji.dto.kierunek.HonorowaneOsiagnieciaDTO;
 import com.example.poasystentrekrutacji.dto.kierunek.PunktyRekrutacyjneZaKierunekDTO;
 import com.example.poasystentrekrutacji.dto.kierunek.RegisterKierunekRequest;
 import com.example.poasystentrekrutacji.dto.kierunek.RegulaWskaznikaRekrutacyjnegoDTO;
+import com.example.poasystentrekrutacji.entity.DaneUzytkownika;
 import com.example.poasystentrekrutacji.entity.Kierunek;
 import com.example.poasystentrekrutacji.repository.KierunekRepository;
+import com.example.poasystentrekrutacji.repository.UserRepository;
+import com.example.poasystentrekrutacji.service.AuthenticationService;
 import com.example.poasystentrekrutacji.service.KierunekService;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,7 +33,11 @@ class PoAsystentRekrutacjiApplicationTests {
     @Autowired
     private KierunekService kierunekService;
     @Autowired
+    private AuthenticationService authenticationService;
+    @Autowired
     private KierunekRepository kierunekRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     @Rollback
@@ -65,17 +76,17 @@ class PoAsystentRekrutacjiApplicationTests {
                 .stopienStudiow(StopienStudiow.I)
                 .honorowaneOsiagniecia(
                         List.of(
-                        HonorowaneOsiagnieciaDTO.builder()
-                                .nazwa("test")
-                                .opis("test")
-                                .liczbaPunktow(23)
-                                .build(),
-                        HonorowaneOsiagnieciaDTO.builder()
-                                .nazwa("test")
-                                .opis("test")
-                                .liczbaPunktow(23)
-                                .build()
-                )).build();
+                                HonorowaneOsiagnieciaDTO.builder()
+                                        .nazwa("test")
+                                        .opis("test")
+                                        .liczbaPunktow(23)
+                                        .build(),
+                                HonorowaneOsiagnieciaDTO.builder()
+                                        .nazwa("test")
+                                        .opis("test")
+                                        .liczbaPunktow(23)
+                                        .build()
+                        )).build();
 
         // when && then
         assertThrows(RuntimeException.class, () -> kierunekService.registerKierunek(registerKierunekRequest));
@@ -131,5 +142,134 @@ class PoAsystentRekrutacjiApplicationTests {
         assertEquals(regula.getPrzedmiot(), regulaWskaznikaRekrutacyjnego.przedmiot());
         assertEquals(regula.getStopienMatury(), regulaWskaznikaRekrutacyjnego.stopienMatury());
         assertEquals(regula.getWaga(), regulaWskaznikaRekrutacyjnego.waga());
+    }
+
+    @Test
+    @Rollback
+    void registerUserWithExistingEmailShouldThrowException() {
+        // given
+        var user1 = DaneUzytkownika.builder()
+                .imie("Kamil")
+                .nazwisko("Nowak")
+                .email("kamil.nowak@gmail.com")
+                .haslo("test")
+                .pesel("12312312311")
+                .numerTelefonu("123123123")
+                .dataUrodzenia(LocalDate.of(1999, 1, 1))
+                .dataZalozeniaKonta(LocalDate.now())
+                .plec(Plec.M)
+                .build();
+
+        var user2 = DaneRejestracyjneUzytkownika.builder()
+                .imie("Kamil")
+                .nazwisko("Nowak")
+                .email("kamil.nowak@gmail.com")
+                .haslo("test")
+                .pesel("32132132111")
+                .numerTelefonu("321321321")
+                .dataUrodzenia(LocalDate.of(2001, 1, 1))
+                .dataZalozeniaKonta(LocalDate.now())
+                .plec(Plec.M)
+                .build();
+
+        // when && then
+        userRepository.save(user1);
+        assertThrows(RuntimeException.class, () -> authenticationService.register(user2));
+    }
+
+    @Test
+    @Rollback
+    void registerUserWithExistingPeselShouldThrowException() {
+        // given
+        var user1 = DaneUzytkownika.builder()
+                .imie("Kamil")
+                .nazwisko("Nowak")
+                .email("kamil.nowak@gmail.com")
+                .haslo("test")
+                .pesel("12312312311")
+                .numerTelefonu("123123123")
+                .dataUrodzenia(LocalDate.of(1999, 1, 1))
+                .dataZalozeniaKonta(LocalDate.now())
+                .plec(Plec.M)
+                .build();
+
+        var user2 = DaneRejestracyjneUzytkownika.builder()
+                .imie("Kamil")
+                .nazwisko("Nowak")
+                .email("kamil.1.nowak@gmail.com")
+                .haslo("test")
+                .pesel("12312312311")
+                .numerTelefonu("321321321")
+                .dataUrodzenia(LocalDate.of(2001, 1, 1))
+                .dataZalozeniaKonta(LocalDate.now())
+                .plec(Plec.M)
+                .build();
+
+        // when && then
+        userRepository.save(user1);
+        assertThrows(RuntimeException.class, () -> authenticationService.register(user2));
+    }
+
+    @Test
+    @Rollback
+    void registerUserWithExistingTelephoneNumberShouldThrowException() {
+        // given
+        var user1 = DaneUzytkownika.builder()
+                .imie("Kamil")
+                .nazwisko("Nowak")
+                .email("kamil.nowak@gmail.com")
+                .haslo("test")
+                .pesel("12312312311")
+                .numerTelefonu("123123123")
+                .dataUrodzenia(LocalDate.of(1999, 1, 1))
+                .dataZalozeniaKonta(LocalDate.now())
+                .plec(Plec.M)
+                .build();
+
+        var user2 = DaneRejestracyjneUzytkownika.builder()
+                .imie("Kamil")
+                .nazwisko("Nowak")
+                .email("kamil.1.nowak@gmail.com")
+                .haslo("test")
+                .pesel("32132132111")
+                .numerTelefonu("123123123")
+                .dataUrodzenia(LocalDate.of(2001, 1, 1))
+                .dataZalozeniaKonta(LocalDate.now())
+                .plec(Plec.M)
+                .build();
+
+        // when && then
+        userRepository.save(user1);
+        assertThrows(RuntimeException.class, () -> authenticationService.register(user2));
+    }
+
+    @Test
+    @Rollback
+    void registerUserWithProperDataShouldRegisterUser() {
+        // given
+        var user1 = DaneUzytkownika.builder()
+                .imie("Kamil")
+                .nazwisko("Nowak")
+                .email("kamil.nowak@gmail.com")
+                .haslo("test")
+                .pesel("12312312311")
+                .numerTelefonu("123123123")
+                .dataUrodzenia(LocalDate.of(1999, 1, 1))
+                .dataZalozeniaKonta(LocalDate.now())
+                .plec(Plec.M)
+                .build();
+
+        // when && then
+        userRepository.save(user1);
+        var userFromDb = userRepository.findByEmail("kamil.nowak@gmail.com").orElseThrow();
+        assertEquals(userFromDb.getImie(), user1.getImie());
+        assertEquals(userFromDb.getNazwisko(), user1.getNazwisko());
+        assertEquals(userFromDb.getEmail(), user1.getEmail());
+        assertEquals(userFromDb.getHaslo(), user1.getHaslo());
+        assertEquals(userFromDb.getPesel(), user1.getPesel());
+        assertEquals(userFromDb.getNumerTelefonu(), user1.getNumerTelefonu());
+        assertEquals(userFromDb.getDataUrodzenia(), user1.getDataUrodzenia());
+        assertEquals(userFromDb.getDataZalozeniaKonta(), user1.getDataZalozeniaKonta());
+        assertEquals(userFromDb.getPlec(), user1.getPlec());
     }
 }
