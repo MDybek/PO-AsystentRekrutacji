@@ -9,4 +9,12 @@ import java.util.List;
 
 public interface KierunekRepository extends JpaRepository<Kierunek, Long> {
     List<Kierunek> findKieruneksByNazwaAndWydzialAndDziedzinaAndStopienStudiow(String nazwa, String wydzial, String dziedzina, StopienStudiow stopienStudiow);
+
+    @Query("select k from Kierunek k " +
+            "WHERE k.nazwa = :nazwa " +
+                "AND k.wydzial = :wydzial " +
+                "AND k.dziedzina = :dziedzina " +
+                "AND k.stopienStudiow = :stopienStudiow"
+    )
+    Kierunek findKierunekByNazwaAndWydzialAndDziedzinaAndStopienStudiow(String nazwa, String wydzial, String dziedzina, StopienStudiow stopienStudiow);
 }

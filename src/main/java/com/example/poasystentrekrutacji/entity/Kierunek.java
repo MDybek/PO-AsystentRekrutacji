@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 
@@ -30,14 +32,14 @@ public class Kierunek {
     @JoinColumn(name = "plan_studiow_id", referencedColumnName = "id")
     private PlanStudiow planStudiow;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kierunek", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "kierunek", cascade = CascadeType.ALL)
     @Size(min = 3)
     private List<RegulaWskaznikaRekrutacyjnego> regulyWskaznikaRekrutacyjnego;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kierunek")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "kierunek")
     private List<HonorowaneOsiagniecia> honorowaneOsiagniecia;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kierunek")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "kierunek")
     private List<PunktyRekrutacyjneZaKierunek> punktyRekrutacyjneZaKierunek;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "kierunek")

@@ -37,6 +37,8 @@ public class KierunekService {
 
         Kierunek kierunek = Kierunek.builder()
                 .nazwa(request.nazwa())
+                .dziedzina(request.dziedzina())
+                .wydzial(request.wydzial())
                 .opis(request.opis())
                 .stopienStudiow(request.stopienStudiow())
                 .regulyWskaznikaRekrutacyjnego(getRecruitmentRules(request.regulyWskaznikaRekrutacyjnego()))
