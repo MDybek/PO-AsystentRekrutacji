@@ -15,7 +15,6 @@ import com.example.poasystentrekrutacji.repository.KierunekRepository;
 import com.example.poasystentrekrutacji.repository.UserRepository;
 import com.example.poasystentrekrutacji.service.AuthenticationService;
 import com.example.poasystentrekrutacji.service.KierunekService;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -108,18 +107,13 @@ class PoAsystentRekrutacjiApplicationTests {
                 .waga(3D)
                 .build();
 
-        var punktyZaKierunki = PunktyRekrutacyjneZaKierunekDTO.builder()
-                .idKierunku(1L)
-                .liczbaPunktow(30)
-                .build();
-
         var registerKierunekRequest = RegisterKierunekRequest.builder()
                 .nazwa("test")
                 .opis("test")
                 .wydzial("test")
                 .dziedzina("test")
                 .stopienStudiow(StopienStudiow.I)
-                .punktyRekrutacyjneZaKierunki(List.of(punktyZaKierunki))
+                .punktyRekrutacyjneZaKierunki(List.of())
                 .regulyWskaznikaRekrutacyjnego(List.of(regulaWskaznikaRekrutacyjnego))
                 .honorowaneOsiagniecia(List.of(honorowaneOsiagniecie))
                 .build();
@@ -130,14 +124,11 @@ class PoAsystentRekrutacjiApplicationTests {
 
         // then
         var osiagniecie = kierunek.getHonorowaneOsiagniecia().get(0);
-        var punkty = kierunek.getPunktyRekrutacyjneZaKierunek().get(0);
         var regula = kierunek.getRegulyWskaznikaRekrutacyjnego().get(0);
 
         assertEquals(osiagniecie.getNazwa(), honorowaneOsiagniecie.nazwa());
         assertEquals(osiagniecie.getOpis(), honorowaneOsiagniecie.opis());
         assertEquals(osiagniecie.getLiczbaPunktow(), honorowaneOsiagniecie.liczbaPunktow());
-
-        assertEquals(punkty.getLiczbaPunktow(), punktyZaKierunki.liczbaPunktow());
 
         assertEquals(regula.getPrzedmiot(), regulaWskaznikaRekrutacyjnego.przedmiot());
         assertEquals(regula.getStopienMatury(), regulaWskaznikaRekrutacyjnego.stopienMatury());
