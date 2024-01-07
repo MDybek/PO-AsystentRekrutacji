@@ -5,15 +5,14 @@ import com.example.poasystentrekrutacji.dto.kierunek.HonorowaneOsiagnieciaDTO;
 import com.example.poasystentrekrutacji.dto.kierunek.PunktyRekrutacyjneZaKierunekDTO;
 import com.example.poasystentrekrutacji.dto.kierunek.RegisterKierunekRequest;
 import com.example.poasystentrekrutacji.dto.kierunek.RegulaWskaznikaRekrutacyjnegoDTO;
-import com.example.poasystentrekrutacji.entity.Kierunek;
 import com.example.poasystentrekrutacji.repository.KierunekRepository;
+import com.example.poasystentrekrutacji.utils.validator.CollectionValidationUtils;
 import com.example.poasystentrekrutacji.utils.validator.ValidationStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +30,7 @@ public class StrictKierunekValidationStrategy implements ValidationStrategy<Regi
     }
 
     private void checkIfPunktyRekrutacyjneZaKierunkiDoNotRepeat(List<PunktyRekrutacyjneZaKierunekDTO> punktyRekrutacyjneZaKierunekDTOs) {
-        if (punktyRekrutacyjneZaKierunekDTOs.size() > punktyRekrutacyjneZaKierunekDTOs.stream().collect(Collectors.toSet()).size()) {
+        if (CollectionValidationUtils.isCollectionNonUnique(punktyRekrutacyjneZaKierunekDTOs)) {
             throw new RuntimeException("Punkty rekrutacyjne za kierunki are not unique!");
         }
     }
@@ -43,13 +42,13 @@ public class StrictKierunekValidationStrategy implements ValidationStrategy<Regi
     }
 
     private void checkIfHonorowaneOsiagnieciaDoNotRepeat(List<HonorowaneOsiagnieciaDTO> honorowaneOsiagnieciaDTOs) {
-        if (honorowaneOsiagnieciaDTOs.size() > honorowaneOsiagnieciaDTOs.stream().collect(Collectors.toSet()).size()) {
+        if (CollectionValidationUtils.isCollectionNonUnique(honorowaneOsiagnieciaDTOs)) {
             throw new RuntimeException("Honorowane osiągnięcia are not unique!");
         }
     }
 
     private void checkIfRegulyWskaznikaRekrutacyjnegoDoNotRepeat(List<RegulaWskaznikaRekrutacyjnegoDTO> regulaWskaznikaRekrutacyjnegoDTOs) {
-        if (regulaWskaznikaRekrutacyjnegoDTOs.size() > regulaWskaznikaRekrutacyjnegoDTOs.stream().collect(Collectors.toSet()).size()) {
+        if (CollectionValidationUtils.isCollectionNonUnique(regulaWskaznikaRekrutacyjnegoDTOs)) {
             throw new RuntimeException("Reguły wskaźnika rekrutacyjnego are not unique!");
         }
     }
