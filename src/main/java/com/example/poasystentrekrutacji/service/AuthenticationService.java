@@ -15,11 +15,11 @@ public class AuthenticationService {
 
     public AuthToken register(DaneRejestracyjneUzytkownika request) {
         if(userRepository.findByEmail(request.getEmail()).isPresent())
-            throw new RuntimeException("User already exists");
+            throw new RuntimeException("User with given email already exists");
         if (userRepository.findByPesel(request.getPesel()).isPresent())
-            throw new RuntimeException("Pesel already exists");
+            throw new RuntimeException("User with given pesel already exists");
         if (userRepository.findByNumerTelefonu(request.getNumerTelefonu()).isPresent())
-            throw new RuntimeException("Telephone number already exists");
+            throw new RuntimeException("User with given telephone number already exists");
 
         var user = userRepository.save(DaneUzytkownika.of(request));
 

@@ -4,6 +4,7 @@ import com.example.poasystentrekrutacji.dto.AuthToken;
 import com.example.poasystentrekrutacji.dto.DaneRejestracyjneUzytkownika;
 import com.example.poasystentrekrutacji.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,8 +18,12 @@ public class UzytkownikController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/zarejestruj")
-    public ResponseEntity<AuthToken> register(@RequestBody DaneRejestracyjneUzytkownika request) {
-        return ResponseEntity.ok(authenticationService.register(request));
+    public ResponseEntity<?> register(@RequestBody DaneRejestracyjneUzytkownika request) {
+        try {
+            return ResponseEntity.ok(authenticationService.register(request));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }
 
