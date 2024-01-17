@@ -11,9 +11,17 @@ import java.util.List;
 public class DaneRekrutacyjne implements ValidationStrategy<DaneRekrutacyjneDTO> {
     @Override
     public void validate(DaneRekrutacyjneDTO daneRekrutacyjneDTO) {
+        checkIfNumberOfWynikiZMaturyCorrect(daneRekrutacyjneDTO.wynikiZMatury());
         checkIfWynikiZMaturyUnique(daneRekrutacyjneDTO.wynikiZMatury());
         checkIfUkonczoneStudiaUnique(daneRekrutacyjneDTO.ukonczoneStudia());
         checkIfHonorowaneOsiagnieciaIdsUnique(daneRekrutacyjneDTO.honorowaneOsiagnieciaIds());
+    }
+
+    private void checkIfNumberOfWynikiZMaturyCorrect(List<WynikZMaturyDTO> wynikZMaturyDTOS) {
+        if(wynikZMaturyDTOS.size() < 3) {
+            throw new RuntimeException(String.format("Należy wprowadzić co najmniej 3 wyniki z matury!"));
+        }
+
     }
 
     private void checkIfWynikiZMaturyUnique(List<WynikZMaturyDTO> wynikZMaturyDTOs) {

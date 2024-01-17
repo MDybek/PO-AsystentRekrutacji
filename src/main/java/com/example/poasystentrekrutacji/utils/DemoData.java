@@ -252,50 +252,50 @@ public class DemoData {
 
         przeprowadzoneRekrutacjeRepository.save(PrzeprowadzonaRekrutacja.builder()
                 .rok(2022)
-                .nazwaKierunku("Informatyka stosowana")
+                .nazwaKierunku("Informatyka stosowana 2022")
                 .rekruterId(1L)
                 .rekrutacjaId(rekrutacja1.getId())
                 .build());
 
         przeprowadzoneRekrutacjeRepository.save(PrzeprowadzonaRekrutacja.builder()
                 .rok(2021)
-                .nazwaKierunku("Informatyka stosowana")
+                .nazwaKierunku("Informatyka stosowana 2021")
                 .rekruterId(1L)
                 .build());
 
         przeprowadzoneRekrutacjeRepository.save(PrzeprowadzonaRekrutacja.builder()
                 .rok(2020)
-                .nazwaKierunku("Informatyka stosowana")
+                .nazwaKierunku("Informatyka stosowana 2020")
                 .rekruterId(1L)
                 .build());
 
         przeprowadzoneRekrutacjeRepository.save(PrzeprowadzonaRekrutacja.builder()
                 .rok(2022)
-                .nazwaKierunku("Informatyka algorytmiczna")
+                .nazwaKierunku("Informatyka algorytmiczna 2022")
                 .rekruterId(1L)
                 .build());
 
         przeprowadzoneRekrutacjeRepository.save(PrzeprowadzonaRekrutacja.builder()
                 .rok(2021)
-                .nazwaKierunku("Informatyka algorytmiczna")
+                .nazwaKierunku("Informatyka algorytmiczna 2021")
                 .rekruterId(1L)
                 .build());
 
         przeprowadzoneRekrutacjeRepository.save(PrzeprowadzonaRekrutacja.builder()
                 .rok(2020)
-                .nazwaKierunku("Informatyka algorytmiczna")
+                .nazwaKierunku("Informatyka algorytmiczna 2020")
                 .rekruterId(1L)
                 .build());
 
         przeprowadzoneRekrutacjeRepository.save(PrzeprowadzonaRekrutacja.builder()
                 .rok(2022)
-                .nazwaKierunku("Informatyka techniczna")
+                .nazwaKierunku("Informatyka techniczna 2022")
                 .rekruterId(1L)
                 .build());
 
         przeprowadzoneRekrutacjeRepository.save(PrzeprowadzonaRekrutacja.builder()
                 .rok(2021)
-                .nazwaKierunku("Informatyka techniczna")
+                .nazwaKierunku("Informatyka techniczna 2021")
                 .rekruterId(1L)
                 .build());
     }
